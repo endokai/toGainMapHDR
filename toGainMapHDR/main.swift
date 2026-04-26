@@ -471,9 +471,11 @@ if !apple_gain_map {
     
     let tonemapped_sdrimage = generate_sdr_image()!
     if monochrome_export {
-        adaptive_export_options = NSDictionary(dictionary:[kCGImageDestinationLossyCompressionQuality:imagequality ?? 0.85, CIImageRepresentationOption.hdrImage:hdr_image,CIImageRepresentationOption.hdrGainMapImage:getRGBGainMap(hdr_input: hdr_image, sdr_input: tonemapped_sdrimage, hdr_max: 16),CIImageRepresentationOption.hdrGainMapGamma:0.5])
+        // FIXED: Removed invalid hdrGainMapGamma parameter
+        adaptive_export_options = NSDictionary(dictionary:[kCGImageDestinationLossyCompressionQuality:imagequality ?? 0.85, CIImageRepresentationOption.hdrImage:hdr_image,CIImageRepresentationOption.hdrGainMapImage:getRGBGainMap(hdr_input: hdr_image, sdr_input: tonemapped_sdrimage, hdr_max: 16)])
     } else {
-        adaptive_export_options = NSDictionary(dictionary:[kCGImageDestinationLossyCompressionQuality:imagequality ?? 0.85, CIImageRepresentationOption.hdrImage:hdr_image,CIImageRepresentationOption.hdrGainMapImage:getRGBGainMap(hdr_input: hdr_image, sdr_input: tonemapped_sdrimage, hdr_max: 16),CIImageRepresentationOption.hdrGainMapGamma:0.5])
+        // FIXED: Removed invalid hdrGainMapGamma parameter
+        adaptive_export_options = NSDictionary(dictionary:[kCGImageDestinationLossyCompressionQuality:imagequality ?? 0.85, CIImageRepresentationOption.hdrImage:hdr_image,CIImageRepresentationOption.hdrGainMapImage:getRGBGainMap(hdr_input: hdr_image, sdr_input: tonemapped_sdrimage, hdr_max: 16)])
     }
     if jpg_export {
         try! ctx.writeJPEGRepresentation(of: tonemapped_sdrimage,
